@@ -158,7 +158,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BLL\DocumentsManager.cs" />
+    <Compile Include="Controllers\DocumentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManagerControllerBase.cs" />
+    <Compile Include="DAL\Core\DocumentsRepository.cs" />
+    <Compile Include="DAL\Core\RoadmapRepository.cs" />
+    <Compile Include="DAL\Core\UnitOfWork.cs" />
     <Compile Include="DAL\rdm_bills.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
@@ -204,7 +210,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ItemsResult.cs" />
+    <Compile Include="Models\MessageResult.cs" />
+    <Compile Include="Models\ViewModels\Contract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\CrudHelpers.cs" />
+    <Compile Include="Utils\Debug.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -266,8 +277,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="BLL\" />
-    <Folder Include="Models\" />
+    <Folder Include="Views\Documents\" />
+    <Folder Include="Views\ManagerControllerBase\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

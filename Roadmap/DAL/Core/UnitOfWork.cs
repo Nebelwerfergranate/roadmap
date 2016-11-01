@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Roadmap.DAL;
+using Roadmap.Utils;
 
 namespace Roadmap.DAL.Core
 {
@@ -10,6 +11,7 @@ namespace Roadmap.DAL.Core
     {
         private RoadmapContext db;
         private RoadmapRepository roadmapRepository;
+        private DocumentsRepository documentsRepository;
         private bool disposed = false;
 
         public UnitOfWork()
@@ -27,6 +29,19 @@ namespace Roadmap.DAL.Core
                 }                    
 
                 return roadmapRepository;
+            }
+        }
+
+        public DocumentsRepository DocumentsRepository
+        {
+            get
+            {
+                if (documentsRepository == null)
+                {
+                    documentsRepository = new DocumentsRepository(db);
+                }
+
+                return documentsRepository;
             }
         }
 
@@ -50,7 +65,7 @@ namespace Roadmap.DAL.Core
             }
             catch(Exception ex)
             {
-                LogError(ex);
+                Debug.LogError(ex);
             }
         }
 
@@ -58,16 +73,6 @@ namespace Roadmap.DAL.Core
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        private void LogError(Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine(ex.Message);
-
-            if (ex.InnerException != null)
-            {
-                LogError(ex.InnerException);
-            }
-        }
+        }        
     }
 }
