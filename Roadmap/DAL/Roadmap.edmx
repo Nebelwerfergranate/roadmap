@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BLL.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="RoadmapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="rdm_bills">
           <Key>
             <PropertyRef Name="id" />
@@ -193,7 +193,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BLLStoreContainer">
+        <EntityContainer Name="RoadmapModelStoreContainer">
           <EntitySet Name="rdm_bills" EntityType="Self.rdm_bills" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rdm_billStatuses" EntityType="Self.rdm_billStatuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="rdm_contractors" EntityType="Self.rdm_contractors" Schema="dbo" store:Type="Tables" />
@@ -240,7 +240,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="BLL" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="RoadmapModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="rdm_bills">
           <Key>
             <PropertyRef Name="id" />
@@ -445,7 +445,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Roadmap" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="RoadmapEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="rdm_bills" EntityType="Self.rdm_bills" />
           <EntitySet Name="rdm_billStatuses" EntityType="Self.rdm_billStatuses" />
           <EntitySet Name="rdm_contractors" EntityType="Self.rdm_contractors" />
@@ -493,9 +493,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="BLLStoreContainer" CdmEntityContainer="Roadmap">
+        <EntityContainerMapping StorageEntityContainer="RoadmapModelStoreContainer" CdmEntityContainer="RoadmapEntities">
           <EntitySetMapping Name="rdm_bills">
-            <EntityTypeMapping TypeName="BLL.rdm_bills">
+            <EntityTypeMapping TypeName="RoadmapModel.rdm_bills">
               <MappingFragment StoreEntitySet="rdm_bills">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="date" ColumnName="date" />
@@ -508,7 +508,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rdm_billStatuses">
-            <EntityTypeMapping TypeName="BLL.rdm_billStatuses">
+            <EntityTypeMapping TypeName="RoadmapModel.rdm_billStatuses">
               <MappingFragment StoreEntitySet="rdm_billStatuses">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="code" ColumnName="code" />
@@ -517,7 +517,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rdm_contractors">
-            <EntityTypeMapping TypeName="BLL.rdm_contractors">
+            <EntityTypeMapping TypeName="RoadmapModel.rdm_contractors">
               <MappingFragment StoreEntitySet="rdm_contractors">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="firstName" ColumnName="firstName" />
@@ -526,7 +526,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rdm_documents">
-            <EntityTypeMapping TypeName="BLL.rdm_documents">
+            <EntityTypeMapping TypeName="RoadmapModel.rdm_documents">
               <MappingFragment StoreEntitySet="rdm_documents">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="documentUrl" ColumnName="documentUrl" />
@@ -542,7 +542,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rdm_documentStatuses">
-            <EntityTypeMapping TypeName="BLL.rdm_documentStatuses">
+            <EntityTypeMapping TypeName="RoadmapModel.rdm_documentStatuses">
               <MappingFragment StoreEntitySet="rdm_documentStatuses">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="code" ColumnName="code" />
@@ -551,7 +551,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rdm_documentTypes">
-            <EntityTypeMapping TypeName="BLL.rdm_documentTypes">
+            <EntityTypeMapping TypeName="RoadmapModel.rdm_documentTypes">
               <MappingFragment StoreEntitySet="rdm_documentTypes">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="code" ColumnName="code" />
@@ -560,7 +560,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rdm_mails">
-            <EntityTypeMapping TypeName="BLL.rdm_mails">
+            <EntityTypeMapping TypeName="RoadmapModel.rdm_mails">
               <MappingFragment StoreEntitySet="rdm_mails">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="dateSent" ColumnName="dateSent" />
@@ -578,7 +578,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rdm_mailStatuses">
-            <EntityTypeMapping TypeName="BLL.rdm_mailStatuses">
+            <EntityTypeMapping TypeName="RoadmapModel.rdm_mailStatuses">
               <MappingFragment StoreEntitySet="rdm_mailStatuses">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="code" ColumnName="code" />
@@ -587,7 +587,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="rdm_mailSystems">
-            <EntityTypeMapping TypeName="BLL.rdm_mailSystems">
+            <EntityTypeMapping TypeName="RoadmapModel.rdm_mailSystems">
               <MappingFragment StoreEntitySet="rdm_mailSystems">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="code" ColumnName="code" />

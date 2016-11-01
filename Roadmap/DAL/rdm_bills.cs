@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Roadmap.BLL
+namespace Roadmap.DAL
 {
     using System;
     using System.Collections.Generic;

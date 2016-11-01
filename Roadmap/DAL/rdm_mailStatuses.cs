@@ -7,17 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Roadmap.BLL
+namespace Roadmap.DAL
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class rdm_documentStatuses
+    public partial class rdm_mailStatuses
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public rdm_documentStatuses()
+        public rdm_mailStatuses()
         {
-            this.rdm_documents = new HashSet<rdm_documents>();
+            this.rdm_mails = new HashSet<rdm_mails>();
         }
     
         public int id { get; set; }
@@ -25,6 +25,6 @@ namespace Roadmap.BLL
         public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<rdm_documents> rdm_documents { get; set; }
+        public virtual ICollection<rdm_mails> rdm_mails { get; set; }
     }
 }

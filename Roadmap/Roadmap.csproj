@@ -158,67 +158,67 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="BLL\rdm_bills.cs">
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="DAL\rdm_bills.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\rdm_billStatuses.cs">
+    <Compile Include="DAL\rdm_billStatuses.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\rdm_contractors.cs">
+    <Compile Include="DAL\rdm_contractors.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\rdm_documents.cs">
+    <Compile Include="DAL\rdm_documents.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\rdm_documentStatuses.cs">
+    <Compile Include="DAL\rdm_documentStatuses.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\rdm_documentTypes.cs">
+    <Compile Include="DAL\rdm_documentTypes.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\rdm_mails.cs">
+    <Compile Include="DAL\rdm_mails.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\rdm_mailStatuses.cs">
+    <Compile Include="DAL\rdm_mailStatuses.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\rdm_mailSystems.cs">
+    <Compile Include="DAL\rdm_mailSystems.cs">
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\Roadmap.Context.cs">
+    <Compile Include="DAL\Roadmap.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Roadmap.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\Roadmap.cs">
+    <Compile Include="DAL\Roadmap.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Roadmap.tt</DependentUpon>
     </Compile>
-    <Compile Include="BLL\Roadmap.Designer.cs">
+    <Compile Include="DAL\Roadmap.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Roadmap.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BLL\Roadmap.Context.tt">
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="DAL\Roadmap.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Roadmap.edmx</DependentUpon>
       <LastGenOutput>Roadmap.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="BLL\Roadmap.tt">
+    <Content Include="DAL\Roadmap.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Roadmap.edmx</DependentUpon>
       <LastGenOutput>Roadmap.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -230,11 +230,11 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="BLL\Roadmap.edmx">
+    <EntityDeploy Include="DAL\Roadmap.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Roadmap.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="BLL\Roadmap.edmx.diagram">
+    <Content Include="DAL\Roadmap.edmx.diagram">
       <DependentUpon>Roadmap.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -266,6 +266,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="BLL\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
