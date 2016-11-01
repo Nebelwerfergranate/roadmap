@@ -1,0 +1,621 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BLL.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="rdm_bills">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="billNumber" Type="nvarchar" MaxLength="128" />
+          <Property Name="contractorID" Type="int" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="2000" />
+          <Property Name="statusID" Type="int" Nullable="false" />
+          <Property Name="sum" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rdm_billStatuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="rdm_contractors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="256" />
+          <Property Name="lastName" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="rdm_documents">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="documentUrl" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="contractorID" Type="int" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="parentDocumentID" Type="int" />
+          <Property Name="documentNumber" Type="nvarchar" MaxLength="128" />
+          <Property Name="sum" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="description" Type="nvarchar" MaxLength="2000" />
+          <Property Name="statusID" Type="int" Nullable="false" />
+          <Property Name="typeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rdm_documentStatuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="rdm_documentTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="rdm_mails">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dateSent" Type="datetime" />
+          <Property Name="dateRecieved" Type="datetime" />
+          <Property Name="sender" Type="nvarchar" MaxLength="512" />
+          <Property Name="recipient" Type="nvarchar" MaxLength="512" />
+          <Property Name="description" Type="nvarchar" MaxLength="2000" />
+          <Property Name="mailSystemID" Type="int" />
+          <Property Name="replyDateSent" Type="datetime" />
+          <Property Name="replyDateRecieved" Type="datetime" />
+          <Property Name="trackingNumber" Type="nvarchar" MaxLength="64" />
+          <Property Name="replyTrackingNumber" Type="nvarchar" MaxLength="64" />
+          <Property Name="statusID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rdm_mailStatuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="rdm_mailSystems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <Association Name="FK_rdm_bills_rdm_billStatuses">
+          <End Role="rdm_billStatuses" Type="Self.rdm_billStatuses" Multiplicity="1" />
+          <End Role="rdm_bills" Type="Self.rdm_bills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_billStatuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_bills">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_bills_rdm_contractors">
+          <End Role="rdm_contractors" Type="Self.rdm_contractors" Multiplicity="1" />
+          <End Role="rdm_bills" Type="Self.rdm_bills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_contractors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_bills">
+              <PropertyRef Name="contractorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_documents_rdm_contractors">
+          <End Role="rdm_contractors" Type="Self.rdm_contractors" Multiplicity="0..1" />
+          <End Role="rdm_documents" Type="Self.rdm_documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_contractors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_documents">
+              <PropertyRef Name="contractorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_documents_rdm_documents_parent">
+          <End Role="rdm_documents" Type="Self.rdm_documents" Multiplicity="0..1" />
+          <End Role="rdm_documents1" Type="Self.rdm_documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_documents">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_documents1">
+              <PropertyRef Name="parentDocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_documents_rdm_documentStatuses">
+          <End Role="rdm_documentStatuses" Type="Self.rdm_documentStatuses" Multiplicity="1" />
+          <End Role="rdm_documents" Type="Self.rdm_documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_documentStatuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_documents">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_documents_rdm_documentTypes">
+          <End Role="rdm_documentTypes" Type="Self.rdm_documentTypes" Multiplicity="1" />
+          <End Role="rdm_documents" Type="Self.rdm_documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_documentTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_documents">
+              <PropertyRef Name="typeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_mails_rdm_mailStatuses">
+          <End Role="rdm_mailStatuses" Type="Self.rdm_mailStatuses" Multiplicity="1" />
+          <End Role="rdm_mails" Type="Self.rdm_mails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_mailStatuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_mails">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_mails_rdm_mailSystems">
+          <End Role="rdm_mailSystems" Type="Self.rdm_mailSystems" Multiplicity="0..1" />
+          <End Role="rdm_mails" Type="Self.rdm_mails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_mailSystems">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_mails">
+              <PropertyRef Name="mailSystemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BLLStoreContainer">
+          <EntitySet Name="rdm_bills" EntityType="Self.rdm_bills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rdm_billStatuses" EntityType="Self.rdm_billStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rdm_contractors" EntityType="Self.rdm_contractors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rdm_documents" EntityType="Self.rdm_documents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rdm_documentStatuses" EntityType="Self.rdm_documentStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rdm_documentTypes" EntityType="Self.rdm_documentTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rdm_mails" EntityType="Self.rdm_mails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rdm_mailStatuses" EntityType="Self.rdm_mailStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rdm_mailSystems" EntityType="Self.rdm_mailSystems" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_rdm_bills_rdm_billStatuses" Association="Self.FK_rdm_bills_rdm_billStatuses">
+            <End Role="rdm_billStatuses" EntitySet="rdm_billStatuses" />
+            <End Role="rdm_bills" EntitySet="rdm_bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_bills_rdm_contractors" Association="Self.FK_rdm_bills_rdm_contractors">
+            <End Role="rdm_contractors" EntitySet="rdm_contractors" />
+            <End Role="rdm_bills" EntitySet="rdm_bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_documents_rdm_contractors" Association="Self.FK_rdm_documents_rdm_contractors">
+            <End Role="rdm_contractors" EntitySet="rdm_contractors" />
+            <End Role="rdm_documents" EntitySet="rdm_documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_documents_rdm_documents_parent" Association="Self.FK_rdm_documents_rdm_documents_parent">
+            <End Role="rdm_documents" EntitySet="rdm_documents" />
+            <End Role="rdm_documents1" EntitySet="rdm_documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_documents_rdm_documentStatuses" Association="Self.FK_rdm_documents_rdm_documentStatuses">
+            <End Role="rdm_documentStatuses" EntitySet="rdm_documentStatuses" />
+            <End Role="rdm_documents" EntitySet="rdm_documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_documents_rdm_documentTypes" Association="Self.FK_rdm_documents_rdm_documentTypes">
+            <End Role="rdm_documentTypes" EntitySet="rdm_documentTypes" />
+            <End Role="rdm_documents" EntitySet="rdm_documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_mails_rdm_mailStatuses" Association="Self.FK_rdm_mails_rdm_mailStatuses">
+            <End Role="rdm_mailStatuses" EntitySet="rdm_mailStatuses" />
+            <End Role="rdm_mails" EntitySet="rdm_mails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_mails_rdm_mailSystems" Association="Self.FK_rdm_mails_rdm_mailSystems">
+            <End Role="rdm_mailSystems" EntitySet="rdm_mailSystems" />
+            <End Role="rdm_mails" EntitySet="rdm_mails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BLL" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="rdm_bills">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="billNumber" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="contractorID" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="statusID" Type="Int32" Nullable="false" />
+          <Property Name="sum" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="rdm_billStatuses" Relationship="Self.FK_rdm_bills_rdm_billStatuses" FromRole="rdm_bills" ToRole="rdm_billStatuses" />
+          <NavigationProperty Name="rdm_contractors" Relationship="Self.FK_rdm_bills_rdm_contractors" FromRole="rdm_bills" ToRole="rdm_contractors" />
+        </EntityType>
+        <EntityType Name="rdm_billStatuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="rdm_bills" Relationship="Self.FK_rdm_bills_rdm_billStatuses" FromRole="rdm_billStatuses" ToRole="rdm_bills" />
+        </EntityType>
+        <EntityType Name="rdm_contractors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="firstName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="lastName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="rdm_bills" Relationship="Self.FK_rdm_bills_rdm_contractors" FromRole="rdm_contractors" ToRole="rdm_bills" />
+          <NavigationProperty Name="rdm_documents" Relationship="Self.FK_rdm_documents_rdm_contractors" FromRole="rdm_contractors" ToRole="rdm_documents" />
+        </EntityType>
+        <EntityType Name="rdm_documents">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="documentUrl" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="contractorID" Type="Int32" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="parentDocumentID" Type="Int32" />
+          <Property Name="documentNumber" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="sum" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="statusID" Type="Int32" Nullable="false" />
+          <Property Name="typeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="rdm_contractors" Relationship="Self.FK_rdm_documents_rdm_contractors" FromRole="rdm_documents" ToRole="rdm_contractors" />
+          <NavigationProperty Name="rdm_documents1" Relationship="Self.FK_rdm_documents_rdm_documents_parent" FromRole="rdm_documents" ToRole="rdm_documents1" />
+          <NavigationProperty Name="rdm_documents2" Relationship="Self.FK_rdm_documents_rdm_documents_parent" FromRole="rdm_documents1" ToRole="rdm_documents" />
+          <NavigationProperty Name="rdm_documentStatuses" Relationship="Self.FK_rdm_documents_rdm_documentStatuses" FromRole="rdm_documents" ToRole="rdm_documentStatuses" />
+          <NavigationProperty Name="rdm_documentTypes" Relationship="Self.FK_rdm_documents_rdm_documentTypes" FromRole="rdm_documents" ToRole="rdm_documentTypes" />
+        </EntityType>
+        <EntityType Name="rdm_documentStatuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="rdm_documents" Relationship="Self.FK_rdm_documents_rdm_documentStatuses" FromRole="rdm_documentStatuses" ToRole="rdm_documents" />
+        </EntityType>
+        <EntityType Name="rdm_documentTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="rdm_documents" Relationship="Self.FK_rdm_documents_rdm_documentTypes" FromRole="rdm_documentTypes" ToRole="rdm_documents" />
+        </EntityType>
+        <EntityType Name="rdm_mails">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dateSent" Type="DateTime" Precision="3" />
+          <Property Name="dateRecieved" Type="DateTime" Precision="3" />
+          <Property Name="sender" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="recipient" Type="String" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="mailSystemID" Type="Int32" />
+          <Property Name="replyDateSent" Type="DateTime" Precision="3" />
+          <Property Name="replyDateRecieved" Type="DateTime" Precision="3" />
+          <Property Name="trackingNumber" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="replyTrackingNumber" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="statusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="rdm_mailStatuses" Relationship="Self.FK_rdm_mails_rdm_mailStatuses" FromRole="rdm_mails" ToRole="rdm_mailStatuses" />
+          <NavigationProperty Name="rdm_mailSystems" Relationship="Self.FK_rdm_mails_rdm_mailSystems" FromRole="rdm_mails" ToRole="rdm_mailSystems" />
+        </EntityType>
+        <EntityType Name="rdm_mailStatuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="rdm_mails" Relationship="Self.FK_rdm_mails_rdm_mailStatuses" FromRole="rdm_mailStatuses" ToRole="rdm_mails" />
+        </EntityType>
+        <EntityType Name="rdm_mailSystems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="rdm_mails" Relationship="Self.FK_rdm_mails_rdm_mailSystems" FromRole="rdm_mailSystems" ToRole="rdm_mails" />
+        </EntityType>
+        <Association Name="FK_rdm_bills_rdm_billStatuses">
+          <End Role="rdm_billStatuses" Type="Self.rdm_billStatuses" Multiplicity="1" />
+          <End Role="rdm_bills" Type="Self.rdm_bills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_billStatuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_bills">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_bills_rdm_contractors">
+          <End Role="rdm_contractors" Type="Self.rdm_contractors" Multiplicity="1" />
+          <End Role="rdm_bills" Type="Self.rdm_bills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_contractors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_bills">
+              <PropertyRef Name="contractorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_documents_rdm_contractors">
+          <End Role="rdm_contractors" Type="Self.rdm_contractors" Multiplicity="0..1" />
+          <End Role="rdm_documents" Type="Self.rdm_documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_contractors">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_documents">
+              <PropertyRef Name="contractorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_documents_rdm_documents_parent">
+          <End Role="rdm_documents" Type="Self.rdm_documents" Multiplicity="0..1" />
+          <End Role="rdm_documents1" Type="Self.rdm_documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_documents">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_documents1">
+              <PropertyRef Name="parentDocumentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_documents_rdm_documentStatuses">
+          <End Role="rdm_documentStatuses" Type="Self.rdm_documentStatuses" Multiplicity="1" />
+          <End Role="rdm_documents" Type="Self.rdm_documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_documentStatuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_documents">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_documents_rdm_documentTypes">
+          <End Role="rdm_documentTypes" Type="Self.rdm_documentTypes" Multiplicity="1" />
+          <End Role="rdm_documents" Type="Self.rdm_documents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_documentTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_documents">
+              <PropertyRef Name="typeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_mails_rdm_mailStatuses">
+          <End Role="rdm_mailStatuses" Type="Self.rdm_mailStatuses" Multiplicity="1" />
+          <End Role="rdm_mails" Type="Self.rdm_mails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_mailStatuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_mails">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_rdm_mails_rdm_mailSystems">
+          <End Role="rdm_mailSystems" Type="Self.rdm_mailSystems" Multiplicity="0..1" />
+          <End Role="rdm_mails" Type="Self.rdm_mails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="rdm_mailSystems">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="rdm_mails">
+              <PropertyRef Name="mailSystemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Roadmap" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="rdm_bills" EntityType="Self.rdm_bills" />
+          <EntitySet Name="rdm_billStatuses" EntityType="Self.rdm_billStatuses" />
+          <EntitySet Name="rdm_contractors" EntityType="Self.rdm_contractors" />
+          <EntitySet Name="rdm_documents" EntityType="Self.rdm_documents" />
+          <EntitySet Name="rdm_documentStatuses" EntityType="Self.rdm_documentStatuses" />
+          <EntitySet Name="rdm_documentTypes" EntityType="Self.rdm_documentTypes" />
+          <EntitySet Name="rdm_mails" EntityType="Self.rdm_mails" />
+          <EntitySet Name="rdm_mailStatuses" EntityType="Self.rdm_mailStatuses" />
+          <EntitySet Name="rdm_mailSystems" EntityType="Self.rdm_mailSystems" />
+          <AssociationSet Name="FK_rdm_bills_rdm_billStatuses" Association="Self.FK_rdm_bills_rdm_billStatuses">
+            <End Role="rdm_billStatuses" EntitySet="rdm_billStatuses" />
+            <End Role="rdm_bills" EntitySet="rdm_bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_bills_rdm_contractors" Association="Self.FK_rdm_bills_rdm_contractors">
+            <End Role="rdm_contractors" EntitySet="rdm_contractors" />
+            <End Role="rdm_bills" EntitySet="rdm_bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_documents_rdm_contractors" Association="Self.FK_rdm_documents_rdm_contractors">
+            <End Role="rdm_contractors" EntitySet="rdm_contractors" />
+            <End Role="rdm_documents" EntitySet="rdm_documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_documents_rdm_documents_parent" Association="Self.FK_rdm_documents_rdm_documents_parent">
+            <End Role="rdm_documents" EntitySet="rdm_documents" />
+            <End Role="rdm_documents1" EntitySet="rdm_documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_documents_rdm_documentStatuses" Association="Self.FK_rdm_documents_rdm_documentStatuses">
+            <End Role="rdm_documentStatuses" EntitySet="rdm_documentStatuses" />
+            <End Role="rdm_documents" EntitySet="rdm_documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_documents_rdm_documentTypes" Association="Self.FK_rdm_documents_rdm_documentTypes">
+            <End Role="rdm_documentTypes" EntitySet="rdm_documentTypes" />
+            <End Role="rdm_documents" EntitySet="rdm_documents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_mails_rdm_mailStatuses" Association="Self.FK_rdm_mails_rdm_mailStatuses">
+            <End Role="rdm_mailStatuses" EntitySet="rdm_mailStatuses" />
+            <End Role="rdm_mails" EntitySet="rdm_mails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_rdm_mails_rdm_mailSystems" Association="Self.FK_rdm_mails_rdm_mailSystems">
+            <End Role="rdm_mailSystems" EntitySet="rdm_mailSystems" />
+            <End Role="rdm_mails" EntitySet="rdm_mails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BLLStoreContainer" CdmEntityContainer="Roadmap">
+          <EntitySetMapping Name="rdm_bills">
+            <EntityTypeMapping TypeName="BLL.rdm_bills">
+              <MappingFragment StoreEntitySet="rdm_bills">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="billNumber" ColumnName="billNumber" />
+                <ScalarProperty Name="contractorID" ColumnName="contractorID" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="statusID" ColumnName="statusID" />
+                <ScalarProperty Name="sum" ColumnName="sum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rdm_billStatuses">
+            <EntityTypeMapping TypeName="BLL.rdm_billStatuses">
+              <MappingFragment StoreEntitySet="rdm_billStatuses">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rdm_contractors">
+            <EntityTypeMapping TypeName="BLL.rdm_contractors">
+              <MappingFragment StoreEntitySet="rdm_contractors">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rdm_documents">
+            <EntityTypeMapping TypeName="BLL.rdm_documents">
+              <MappingFragment StoreEntitySet="rdm_documents">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="documentUrl" ColumnName="documentUrl" />
+                <ScalarProperty Name="contractorID" ColumnName="contractorID" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="parentDocumentID" ColumnName="parentDocumentID" />
+                <ScalarProperty Name="documentNumber" ColumnName="documentNumber" />
+                <ScalarProperty Name="sum" ColumnName="sum" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="statusID" ColumnName="statusID" />
+                <ScalarProperty Name="typeID" ColumnName="typeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rdm_documentStatuses">
+            <EntityTypeMapping TypeName="BLL.rdm_documentStatuses">
+              <MappingFragment StoreEntitySet="rdm_documentStatuses">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rdm_documentTypes">
+            <EntityTypeMapping TypeName="BLL.rdm_documentTypes">
+              <MappingFragment StoreEntitySet="rdm_documentTypes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rdm_mails">
+            <EntityTypeMapping TypeName="BLL.rdm_mails">
+              <MappingFragment StoreEntitySet="rdm_mails">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="dateSent" ColumnName="dateSent" />
+                <ScalarProperty Name="dateRecieved" ColumnName="dateRecieved" />
+                <ScalarProperty Name="sender" ColumnName="sender" />
+                <ScalarProperty Name="recipient" ColumnName="recipient" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="mailSystemID" ColumnName="mailSystemID" />
+                <ScalarProperty Name="replyDateSent" ColumnName="replyDateSent" />
+                <ScalarProperty Name="replyDateRecieved" ColumnName="replyDateRecieved" />
+                <ScalarProperty Name="trackingNumber" ColumnName="trackingNumber" />
+                <ScalarProperty Name="replyTrackingNumber" ColumnName="replyTrackingNumber" />
+                <ScalarProperty Name="statusID" ColumnName="statusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rdm_mailStatuses">
+            <EntityTypeMapping TypeName="BLL.rdm_mailStatuses">
+              <MappingFragment StoreEntitySet="rdm_mailStatuses">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rdm_mailSystems">
+            <EntityTypeMapping TypeName="BLL.rdm_mailSystems">
+              <MappingFragment StoreEntitySet="rdm_mailSystems">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
