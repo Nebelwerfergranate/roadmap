@@ -445,7 +445,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="RoadmapEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="RoadmapContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="rdm_bills" EntityType="Self.rdm_bills" />
           <EntitySet Name="rdm_billStatuses" EntityType="Self.rdm_billStatuses" />
           <EntitySet Name="rdm_contractors" EntityType="Self.rdm_contractors" />
@@ -493,7 +493,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="RoadmapModelStoreContainer" CdmEntityContainer="RoadmapEntities">
+        <EntityContainerMapping StorageEntityContainer="RoadmapModelStoreContainer" CdmEntityContainer="RoadmapContext">
           <EntitySetMapping Name="rdm_bills">
             <EntityTypeMapping TypeName="RoadmapModel.rdm_bills">
               <MappingFragment StoreEntitySet="rdm_bills">
