@@ -4,29 +4,44 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Roadmap.DAL.Core;
+using Roadmap.BLL;
 
 namespace Roadmap.Controllers
 {
     public abstract class ManagerControllerBase : Controller
     {
-        private UnitOfWork db;
+        private UnitOfWork database;
+        private DocumentsManager documentsManager;
 
         protected UnitOfWork Db
         {
             get
             {
-                if (db == null)
+                if (database == null)
                 {
-                    db = new UnitOfWork();
+                    database = new UnitOfWork();
                 }
 
-                return db;
+                return database;
+            }
+        }        
+
+        protected DocumentsManager DocumentsManager
+        {
+            get
+            {
+                if (documentsManager == null)
+                {
+                    documentsManager = new DocumentsManager(Db);
+                }
+
+                return documentsManager;
             }
         }
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            database.Dispose();
             base.Dispose(disposing);
         }
     }

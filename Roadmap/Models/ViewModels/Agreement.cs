@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Roadmap.Models.ViewModels
 {
-    public class Contract
+    public class Agreement
     {
         public int Id { get; set; }
         public string DocumentUrl { get; set; }
@@ -15,7 +15,6 @@ namespace Roadmap.Models.ViewModels
         public string DocumentNumber { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
-        public int ActsCount { get; set; }
-        public int AgreementsCount { get; set; }
+        public string ParentDocumentUrl { get; set; }
     }
 }

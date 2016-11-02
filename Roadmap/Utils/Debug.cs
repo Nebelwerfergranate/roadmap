@@ -16,5 +16,10 @@ namespace Roadmap.Utils
                 LogError(ex.InnerException);
             }
         }
+
+        public static string GetDefaultErrorMessage()
+        {
+            return "Во время выполнения операции произошла ошибка";
+        }
     }
 }

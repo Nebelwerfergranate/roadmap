@@ -19,23 +19,201 @@ namespace Roadmap.BLL
             this.db = db;
         }
 
+        public ItemsResult<Document> GetDocuments(PagingDefinition paging)
+        {
+            ItemsResult<Document> res = new ItemsResult<Document>();
+            int total;
+            int page = paging.Page;
+
+            try
+            {
+                IQueryable<DocumentData> data = GetDocumentsData();
+
+                //TODO filter
+
+                IOrderedQueryable<DocumentData> ordData = GetOrderedDocumentData(data, paging);
+
+                res.Items = ordData
+                    .Paging(paging.PageSize, ref page, out total)
+                    .Select(x => new Document
+                    {
+                        Id = x.Id,
+                        DocumentUrl = x.DocumentUrl,
+                        ContractorFirstName = x.ContractorFirstName,
+                        ContractorLastname = x.ContractorLastname,
+                        Date = x.Date,
+                        DocumentNumber = x.DocumentNumber,
+                        Description = x.Description,
+                        Status = x.Status,
+                        Type = x.Type
+                    }).ToList();
+
+                res.IsSuccess = true;
+                res.PageSize = paging.PageSize;
+                res.Page = page;
+                res.Total = total;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
+                res.IsSuccess = false;
+                res.Message = Debug.GetDefaultErrorMessage();
+            }
+
+            return res;
+        }
+
         public ItemsResult<Contract> GetContracts(PagingDefinition paging)
         {
             ItemsResult<Contract> res = new ItemsResult<Contract>();
             int total;
+            int page = paging.Page;              
+
+            try
+            {
+                IQueryable<DocumentData> data = GetDocumentsData();
+
+                int contractId = db.DocumentsRepository.GetDocumentTypeIdByCode(DocumentTypes.CONTRACT);
+                data = data.Where(x => x.TypeId == contractId);
+
+                // TODO filter
+
+                IOrderedQueryable<DocumentData> ordData = GetOrderedDocumentData(data, paging);             
+                
+                res.Items = ordData
+                    .Paging(paging.PageSize, ref page, out total)
+                    .Select(x => new Contract
+                    {
+                        Id = x.Id,
+                        DocumentUrl = x.DocumentUrl,
+                        ContractorFirstName = x.ContractorFirstName,
+                        ContractorLastname = x.ContractorLastname,
+                        Date = x.Date,
+                        DocumentNumber = x.DocumentNumber,
+                        Description = x.Description,
+                        Status = x.Status,
+                        ActsCount = x.ActsCount,
+                        AgreementsCount = x.AgreementsCount
+                    }).ToList();
+
+                res.IsSuccess = true;
+                res.PageSize = paging.PageSize;
+                res.Page = page;
+                res.Total = total;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
+                res.IsSuccess = false;
+                res.Message = Debug.GetDefaultErrorMessage();
+            }
+
+            return res;
+        }
+
+        public ItemsResult<Act> GetActs(PagingDefinition paging)
+        {
+            ItemsResult<Act> res = new ItemsResult<Act>();
+            int total;
             int page = paging.Page;
-               
-            int contractId = db.DocumentsRepository.GetDocumentTypeIdByCode(DocumentTypes.CONTRACT);
+
+            try
+            {
+                IQueryable<DocumentData> data = GetDocumentsData();
+
+                int actId = db.DocumentsRepository.GetDocumentTypeIdByCode(DocumentTypes.ACT);
+                data = data.Where(x => x.TypeId == actId);
+
+                // TODO filter
+
+                IOrderedQueryable<DocumentData> ordData = GetOrderedDocumentData(data, paging);
+
+                res.Items = ordData
+                    .Paging(paging.PageSize, ref page, out total)
+                    .Select(x => new Act
+                    {
+                        Id = x.Id,
+                        DocumentUrl = x.DocumentUrl,
+                        ContractorFirstName = x.ContractorFirstName,
+                        ContractorLastname = x.ContractorLastname,
+                        Date = x.Date,
+                        DocumentNumber = x.DocumentNumber,
+                        Description = x.Description,
+                        Status = x.Status,
+                        ParentDocumentUrl = x.ParentDocumentUrl
+                    }).ToList();
+
+                res.IsSuccess = true;
+                res.PageSize = paging.PageSize;
+                res.Page = page;
+                res.Total = total;
+            }
+            catch (Exception ex)
+            {
+                res.IsSuccess = false;
+                Debug.LogError(ex);
+                res.Message = Debug.GetDefaultErrorMessage();
+            }
+
+            return res;
+        }
+
+        public ItemsResult<Agreement> GetAgreements(PagingDefinition paging)
+        {
+            ItemsResult<Agreement> res = new ItemsResult<Agreement>();
+            int total;
+            int page = paging.Page;
+
+            try
+            {
+                IQueryable<DocumentData> data = GetDocumentsData();
+
+                int agreementId = db.DocumentsRepository.GetDocumentTypeIdByCode(DocumentTypes.AGREEMENT);
+                data = data.Where(x => x.TypeId == agreementId);
+
+                // TODO filter
+
+                IOrderedQueryable<DocumentData> ordData = GetOrderedDocumentData(data, paging);
+
+                res.Items = ordData
+                    .Paging(paging.PageSize, ref page, out total)
+                    .Select(x => new Agreement
+                    {
+                        Id = x.Id,
+                        DocumentUrl = x.DocumentUrl,
+                        ContractorFirstName = x.ContractorFirstName,
+                        ContractorLastname = x.ContractorLastname,
+                        Date = x.Date,
+                        DocumentNumber = x.DocumentNumber,
+                        Description = x.Description,
+                        Status = x.Status,
+                        ParentDocumentUrl = x.ParentDocumentUrl
+                    }).ToList();
+
+                res.IsSuccess = true;
+                res.PageSize = paging.PageSize;
+                res.Page = page;
+                res.Total = total;
+            }
+            catch (Exception ex)
+            {
+                res.IsSuccess = false;
+                Debug.LogError(ex);
+                res.Message = Debug.GetDefaultErrorMessage();
+            }
+
+            return res;
+        }
+
+        private IQueryable<DocumentData> GetDocumentsData()
+        {            
             int actId = db.DocumentsRepository.GetDocumentTypeIdByCode(DocumentTypes.ACT);
             int agreementId = db.DocumentsRepository.GetDocumentTypeIdByCode(DocumentTypes.AGREEMENT);
 
-            try
-            {                
-                IQueryable<Contract> data =
-                    db.RoadmapRepository
-                    .Get<rdm_documents>()
-                    .Where(x => x.typeID == contractId)
-                    .Select(x => new Contract() {
+            return db.RoadmapRepository
+                    .Get<rdm_documents>()                    
+                    .Select(x => new DocumentData()
+                    {
                         Id = x.id,
                         DocumentUrl = x.documentUrl,
                         ContractorFirstName = x.rdm_contractors.firstName,
@@ -44,55 +222,30 @@ namespace Roadmap.BLL
                         DocumentNumber = x.documentNumber,
                         Description = x.description,
                         Status = x.rdm_documentStatuses.name,
-                        ActSCount = x.rdm_documents1.Where(item => item.typeID == actId).Count(),
-                        AgreementsCount = x.rdm_documents1.Where(item => item.typeID == agreementId).Count()
+                        ActsCount = x.rdm_documents1.Where(item => item.typeID == actId).Count(),
+                        AgreementsCount = x.rdm_documents1.Where(item => item.typeID == agreementId).Count(),
+                        ParentDocumentUrl = x.rdm_documents2 != null ? x.rdm_documents2.documentUrl : "",
+                        Type = x.rdm_documentTypes.name,
+                        TypeId = x.rdm_documentTypes.id                        
                     });
-
-                // TODO filter
-
-                IOrderedQueryable<Contract> ordData;
-
-                switch (paging.Sort)
-                {
-                    case "DocumentUrl": ordData = data.OrderBy(x => x.DocumentUrl, paging.Direction); break;
-                    case "ContractorFirstName": ordData = data.OrderBy(x => x.ContractorFirstName, paging.Direction); break;
-                    case "ContractorLastname": ordData = data.OrderBy(x => x.ContractorLastname, paging.Direction); break;
-                    case "Date": ordData = data.OrderBy(x => x.Date, paging.Direction); break;
-                    case "DocumentNumber": ordData = data.OrderBy(x => x.DocumentNumber, paging.Direction); break;
-                    case "Description": ordData = data.OrderBy(x => x.Description, paging.Direction); break;
-                    case "Status": ordData = data.OrderBy(x => x.Status, paging.Direction); break;
-                    case "ActsCount": ordData = data.OrderBy(x => x.ActSCount, paging.Direction); break;
-                    case "AgreementsCount": ordData = data.OrderBy(x => x.AgreementsCount, paging.Direction); break;
-                    default: ordData = data.OrderBy(x => x.Id, paging.Direction); break;
-                }
-
-                res.Items = ordData.Paging(paging.PageSize, ref page, out total).ToList();
-                res.IsSuccess = true;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError(ex);
-                res.IsSuccess = false;
-                res.Message = "Во время выполнения операции произошла ошибка";
-            }
-
-            return res;
         }
 
-        public ItemsResult<rdm_documentStatuses> GetDocumentStatuses()
+        private IOrderedQueryable<DocumentData> GetOrderedDocumentData(IQueryable<DocumentData> data, PagingDefinition paging)
         {
-            ItemsResult<rdm_documentStatuses> res = new ItemsResult<rdm_documentStatuses>();
+            IOrderedQueryable<DocumentData> res;
 
-            try
+            switch (paging.Sort)
             {
-                // TODO cache
-                res.Items = db.RoadmapRepository.Get<rdm_documentStatuses>().ToList();
-                res.IsSuccess = true;
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError(ex);
-                res.IsSuccess = false;
+                case "ContractorFirstName": res = data.OrderBy(x => x.ContractorFirstName, paging.Direction); break;
+                case "ContractorLastname": res = data.OrderBy(x => x.ContractorLastname, paging.Direction); break;
+                case "Date": res = data.OrderBy(x => x.Date, paging.Direction); break;
+                case "DocumentNumber": res = data.OrderBy(x => x.DocumentNumber, paging.Direction); break;
+                case "Description": res = data.OrderBy(x => x.Description, paging.Direction); break;
+                case "Status": res = data.OrderBy(x => x.Status, paging.Direction); break;
+                case "ActsCount": res = data.OrderBy(x => x.ActsCount, paging.Direction); break;
+                case "AgreementsCount": res = data.OrderBy(x => x.AgreementsCount, paging.Direction); break;
+                case "Type": res = data.OrderBy(x => x.Type, paging.Direction); break;
+                default: res = data.OrderBy(x => x.Id, paging.Direction); break;
             }
 
             return res;

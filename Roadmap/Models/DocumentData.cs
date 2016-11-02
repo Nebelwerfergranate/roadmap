@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Roadmap.Models.ViewModels
+namespace Roadmap.Models
 {
-    public class Contract
+    public class DocumentData
     {
         public int Id { get; set; }
         public string DocumentUrl { get; set; }
@@ -17,5 +17,8 @@ namespace Roadmap.Models.ViewModels
         public string Status { get; set; }
         public int ActsCount { get; set; }
         public int AgreementsCount { get; set; }
+        public string ParentDocumentUrl { get; set; }
+        public string Type { get; set; }
+        public int TypeId { get; set; }
     }
 }
